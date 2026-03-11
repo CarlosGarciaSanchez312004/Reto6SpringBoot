@@ -20,7 +20,6 @@ public interface MuseoRepository extends MongoRepository<Museo, String> {
      * @return Un Optional con el museo si se encuentra.
      */
     Optional<Museo> findByNombre(String nombre);
-
     /**
      * Busca museos por municipio.
      *
