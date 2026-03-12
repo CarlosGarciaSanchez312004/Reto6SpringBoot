@@ -1,0 +1,119 @@
+/* =========================================
+   SECCIÓN: ESTILOS GENERALES
+   ========================================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================================
+   HEADER CON TRANSICIÓN DE IMÁGENES
+   ========================================= */
+.header-andalucia {
+    position: relative;
+    overflow: hidden;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+/* El pseudo-elemento que hace la magia de las fotos */
+.header-andalucia::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    animation: slideHeader 25s infinite ease-in-out;
+}
+
+@keyframes slideHeader {
+    0%, 15% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header1.jpg'); }
+    20%, 35% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header2.jpg'); }
+    40%, 55% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header3.jpg'); }
+    60%, 75% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header4.jpg'); }
+    80%, 95% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header5.jpg'); }
+    100% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header1.jpg'); }
+}
+
+.hover-card {
+    transition: transform 0.3s ease;
+    border-radius: 12px;
+}
+.hover-card:hover {
+    transform: translateY(-5px);
+}
+
+.header-title {
+    color: #000000;
+    font-weight: 900;
+    text-transform: uppercase;
+    /* Tamaño de letra fluido: se adapta al ancho de pantalla */
+    font-size: calc(1.5rem + 2vw);
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    /* Sombra de texto sutil para mejorar legibilidad */
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+.header-subtitle {
+    font-size: calc(0.9rem + 0.5vw);
+    color: #333;
+}
+
+/* =========================================
+   SECCIÓN: MAPA Y DETALLES
+   ========================================= */
+#map {
+    height: 350px; /* Un poco más pequeño para que quepa mejor en pantalla */
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    margin-top: 10px;
+}
+
+/* Ajuste para que las tarjetas no se vean pegadas en móviles */
+.card {
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+:root {
+    --andalucia-green: #00853f;
+}
+
+.hover-card {
+    transition: all 0.3s ease;
+    border-radius: 15px !important;
+    overflow: hidden;
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+}
+
+.btn-primary {
+    background-color: var(--andalucia-green);
+    border: none;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #006b33;
+}
+
+/* Mejora del header del ejercicio */
+.header-andalucia {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url('https://images.unsplash.com/photo-1564507592333-c60657eaa0ae?q=80&w=1000') center/cover;
+    color: white;
+    padding: 100px 0;
+}
+.navbar {
+    margin-top: 0 !important;
+}

@@ -32,7 +32,6 @@ public class Museo {
     @Field("unit_type")
     private String unitType;
 
-    // Campos adicionales que me pasaste
     private String latitude;
     private String longitude;
     private String state;

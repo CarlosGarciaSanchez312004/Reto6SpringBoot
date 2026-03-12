@@ -44,10 +44,11 @@ public class AppUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado: " + username);
         }
 
-        // {noop} indica que la contraseña no está encriptada (para simplificar, como en el ejemplo)
+        String rol = username.toLowerCase().contains("admin") ? "ADMIN" : "USER";
+
         return User.withUsername(username)
                 .password("{noop}" + currentUser.get().getPassword())
-                .roles("ADMIN")
+                .roles(rol)
                 .build();
     }
 }

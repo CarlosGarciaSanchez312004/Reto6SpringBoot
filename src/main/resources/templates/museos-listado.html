@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andalucía Museums - Listado</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-light">
+
+<header class="header-andalucia text-center py-5 shadow-sm mb-0">
+    <div class="container position-relative" style="z-index: 2;">
+        <h1 class="display-4 fw-bold text-white">Museos Andalucía</h1>
+        <p class="lead text-white-50">Descubre la historia y el arte de nuestra tierra</p>
+    </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/web/museos/lista}">INICIO</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Provincias</a>
+                    <ul class="dropdown-menu shadow">
+                        <li><a class="dropdown-item" th:href="@{/web/museos/lista}">Todas</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li th:each="prov : ${provincias}">
+                            <a class="dropdown-item" th:href="@{/web/museos/lista(provincia=${prov})}" th:text="${prov}"></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex mx-auto w-50" th:action="@{/web/museos/lista}" method="get" id="searchForm">
+                <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-search text-muted"></i>
+        </span>
+                    <input class="form-control border-start-0 ps-0"
+                           type="search"
+                           name="nombre"
+                           id="searchInput"
+                           placeholder="Buscar museo por nombre..."
+                           aria-label="Search">
+                </div>
+            </form>
+            <div class="d-flex align-items-center">
+                <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-outline-light btn-sm px-4">
+                    <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                </a>
+
+                <div sec:authorize="isAuthenticated()" class="dropdown text-white">
+                    <span class="me-2 small">Hola, <strong sec:authentication="name">Usuario</strong></span>
+                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Mi Cuenta
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="dropdown-item" th:href="@{/web/museos/nuevo}">➕ Añadir Museo</a>
+                        </li>
+                        <li sec:authorize="hasRole('ADMIN')"><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" style="display: inline;">
+                                <button type="submit" class="dropdown-item text-danger">Cerrar Sesión</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+
+    <div sec:authorize="hasRole('ADMIN')" class="d-flex justify-content-end mb-4">
+        <a th:href="@{/web/museos/nuevo}" class="btn btn-success btn-lg shadow-sm fw-bold">
+            <i class="bi bi-plus-lg me-2"></i> Nuevo Museo
+        </a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="museo : ${museos}">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body">
+                    <span class="badge bg-success-subtle text-success mb-2" th:text="${museo.province}"></span>
+                    <h5 class="card-title fw-bold" th:text="${museo.nombre}"></h5>
+                    <p class="card-text text-muted small">
+                        <i class="bi bi-geo-alt"></i> <span th:text="${museo.municipality}"></span>
+                    </p>
+                </div>
+                <div class="card-footer bg-white border-0 pb-3">
+                    <div class="btn-group w-100">
+                        <a th:href="@{/web/museos/detalle/{id}(id=${museo._id})}" class="btn btn-primary">Ver info</a>
+
+                        <form sec:authorize="hasRole('ADMIN')"
+                              th:action="@{/web/museos/eliminar/{id}(id=${museo._id})}"
+                              method="post"
+                              onsubmit="return confirm('¿Eliminar este museo definitivamente?')">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        let texto = this.value.toLowerCase();
+        let tarjetas = document.querySelectorAll('.col'); // Selecciona todas las columnas que contienen tarjetas
+
+        tarjetas.forEach(col => {
+            // Buscamos el título del museo dentro de la tarjeta
+            let nombreMuseo = col.querySelector('.card-title').textContent.toLowerCase();
+
+            // Si el texto está incluido en el nombre, mostramos; si no, ocultamos con Bootstrap
+            if (nombreMuseo.includes(texto)) {
+                col.style.display = "block";
+            } else {
+                col.style.display = "none";
+            }
+        });
+    });
+</script>
+</body>
+</html>

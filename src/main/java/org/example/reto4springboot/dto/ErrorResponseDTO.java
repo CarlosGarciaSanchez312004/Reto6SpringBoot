@@ -1,4 +1,4 @@
-package org.example.reto4springboot.exceptions;
+package org.example.reto4springboot.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

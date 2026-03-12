@@ -1,5 +1,6 @@
 package org.example.reto4springboot.exceptions;
 
+import org.example.reto4springboot.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

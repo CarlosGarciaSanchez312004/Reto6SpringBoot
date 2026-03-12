@@ -35,4 +35,4 @@ public interface MuseoRepository extends MongoRepository<Museo, String> {
      * @return Lista de museos en la provincia.
      */
     List<Museo> findByProvince(String province);
-}
+    List<Museo> findByNombreContainingIgnoreCase(String nombre);}

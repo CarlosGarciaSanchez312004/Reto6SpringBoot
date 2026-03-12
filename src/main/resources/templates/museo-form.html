@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Añadir/Editar Museo - Museos Andalucía</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-light pb-5">
+
+<header class="bg-success text-white text-center py-4 shadow-sm mb-4">
+  <div class="container">
+    <h2 class="fw-bold mb-0"><i class="bi bi-building-add"></i> Gestión de Museo</h2>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow border-0 rounded-4">
+        <div class="card-body p-4 p-md-5">
+
+          <h4 class="mb-4 text-success border-bottom pb-2">Datos del Museo</h4>
+
+          <form th:action="@{/web/museos/guardar}" th:object="${museo}" method="post">
+
+            <input type="hidden" th:field="*{_id}" />
+
+            <div class="row g-3">
+              <div class="col-md-12">
+                <label for="nombre" class="form-label fw-bold">Nombre del Museo *</label>
+                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required placeholder="Ej. Museo de Bellas Artes">
+              </div>
+
+              <div class="col-md-12">
+                <label for="address" class="form-label fw-bold">Dirección</label>
+                <input type="text" class="form-control" id="address" th:field="*{address}" placeholder="Calle, Plaza, Avenida...">
+              </div>
+
+              <div class="col-md-6">
+                <label for="municipality" class="form-label fw-bold">Municipio</label>
+                <input type="text" class="form-control" id="municipality" th:field="*{municipality}">
+              </div>
+              <div class="col-md-6">
+                <label for="province" class="form-label fw-bold">Provincia</label>
+                <select class="form-select" id="province" th:field="*{province}">
+                  <option value="">Selecciona una provincia...</option>
+                  <option th:each="prov : ${provincias}" th:value="${prov}" th:text="${prov}"></option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mt-4">
+                <label for="phone" class="form-label fw-bold">Teléfono</label>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}" placeholder="Ej. 954...">
+              </div>
+              <div class="col-md-6 mt-4">
+                <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="museo@ejemplo.com">
+              </div>
+
+              <div class="col-md-12">
+                <label for="web" class="form-label fw-bold">Página Web</label>
+                <input type="url" class="form-control" id="web" th:field="*{web}" placeholder="https://www...">
+              </div>
+              <div class="col-md-12">
+                <label for="opening_hours" class="form-label fw-bold">Horario</label>
+                <textarea class="form-control" id="opening_hours" th:field="*{opening_hours}" rows="2" placeholder="L-V: 09:00 a 14:00..."></textarea>
+              </div>
+
+              <h5 class="mt-4 text-success border-bottom pb-2">Geolocalización</h5>
+              <div class="col-md-6">
+                <label for="latitude" class="form-label fw-bold">Latitud</label>
+                <input type="number" step="any" class="form-control" id="latitude" th:field="*{latitude}" placeholder="Ej. 37.3828">
+              </div>
+              <div class="col-md-6">
+                <label for="longitude" class="form-label fw-bold">Longitud</label>
+                <input type="number" step="any" class="form-control" id="longitude" th:field="*{longitude}" placeholder="Ej. -5.9731">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-5">
+              <a th:href="@{/web/museos/lista}" class="btn btn-outline-secondary px-4">
+                <i class="bi bi-arrow-left"></i> Cancelar
+              </a>
+              <button type="submit" class="btn btn-success px-5 fw-bold">
+                <i class="bi bi-floppy"></i> Guardar Museo
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

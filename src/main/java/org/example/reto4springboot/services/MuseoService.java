@@ -131,5 +131,10 @@ public class MuseoService {
 
             return museoRepository.save(museoExistente);
         }).orElseThrow(() -> new org.example.reto4springboot.exceptions.MuseoNotFoundException("No se puede actualizar. Museo no encontrado con ID: " + id));
+
+    }
+    // Añade esto a tu MuseoService.java
+    public List<Museo> findByNombreContaining(String nombre) {
+        return museoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 }

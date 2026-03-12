@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${museo.nombre}">Detalle Museo</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-light pb-5">
+
+<div class="container mt-5">
+    <a th:href="@{/web/museos/lista}" class="btn btn-secondary mb-3">&larr; Volver al listado</a>
+
+    <div class="card shadow border-0">
+        <div class="card-header bg-success text-white">
+            <h2 class="mb-0" th:text="${museo.nombre}">Nombre del Museo</h2>
+        </div>
+
+        <div class="card-body row">
+
+            <div class="col-md-6">
+                <h4 class="text-success">Información</h4>
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item"><strong>Provincia:</strong> <span th:text="${museo.province}"></span></li>
+                    <li class="list-group-item"><strong>Municipio:</strong> <span th:text="${museo.municipality}"></span></li>
+                    <li class="list-group-item"><strong>Dirección:</strong> <span th:text="${museo.address}"></span></li>
+                    <li class="list-group-item"><strong>Teléfono:</strong> <span th:text="${museo.phone ?: 'No disponible'}"></span></li>
+                    <li class="list-group-item"><strong>Horario:</strong> <span th:text="${museo.opening_hours ?: 'Consultar'}"></span></li>
+                </ul>
+
+                <a th:if="${museo.web != null and !museo.web.isEmpty()}"
+                   th:href="${museo.web}"
+                   target="_blank"
+                   class="btn btn-primary btn-lg mb-3">
+                    🌍 Visitar Página Web
+                </a>
+            </div>
+
+            <div class="col-md-6">
+                <h4 class="text-success">Ubicación</h4>
+                <div id="map"></div>
+
+                <input type="hidden" id="lat" th:value="${museo.latitude}">
+                <input type="hidden" id="lon" th:value="${museo.longitude}">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Leemos los valores de los inputs ocultos
+        var lat = parseFloat(document.getElementById('lat').value);
+        var lon = parseFloat(document.getElementById('lon').value);
+
+        // Verificamos que las coordenadas existan y sean números válidos antes de cargar el mapa
+        if(!isNaN(lat) && !isNaN(lon)) {
+            var map = L.map('map').setView([lat, lon], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup("<b>Ubicación del museo</b>").openPopup();
+        } else {
+            // Mensaje de fallback si no hay coordenadas en la base de datos
+            document.getElementById('map').innerHTML = "<div class='alert alert-warning m-3'>Coordenadas no disponibles para este museo.</div>";
+        }
+    });
+</script>
+</body>
+</html>
