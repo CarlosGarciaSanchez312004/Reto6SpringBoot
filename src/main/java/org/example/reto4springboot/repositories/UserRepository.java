@@ -8,16 +8,16 @@ import java.util.Optional;
 
 /**
  * Repositorio para la entidad UserDB.
- * Permite realizar operaciones CRUD y consultas personalizadas sobre la colección de usuarios.
+ * Permite gestionar la colección de usuarios registrados para procesos de seguridad y login.
  */
 @Repository
 public interface UserRepository extends MongoRepository<UserDB, String> {
 
     /**
-     * Busca un usuario por su dirección de correo electrónico.
+     * Localiza a un usuario en la base de datos a través de su correo electrónico.
      *
-     * @param email Correo electrónico del usuario.
-     * @return Un Optional con el usuario si se encuentra.
+     * @param email Dirección de correo electrónico del usuario.
+     * @return Un Optional con el usuario si la búsqueda tiene éxito.
      */
     Optional<UserDB> findUserDBByEmail(String email);
 }

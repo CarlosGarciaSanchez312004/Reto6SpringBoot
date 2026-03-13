@@ -92,6 +92,11 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div class="col" th:each="museo : ${museos}">
             <div class="card h-100 border-0 shadow-sm hover-card">
+                <img th:src="@{'https://loremflickr.com/400/250/museum,architecture,culture/all?lock=' + ${museo._id.hashCode()}}"
+                     class="card-img-top"
+                     alt="Imagen del museo"
+                     style="height: 200px; object-fit: cover;">
+
                 <div class="card-body">
                     <span class="badge bg-success-subtle text-success mb-2" th:text="${museo.province}"></span>
                     <h5 class="card-title fw-bold" th:text="${museo.nombre}"></h5>
@@ -103,11 +108,17 @@
                     <div class="btn-group w-100">
                         <a th:href="@{/web/museos/detalle/{id}(id=${museo._id})}" class="btn btn-primary">Ver info</a>
 
+                        <a sec:authorize="hasRole('ADMIN')"
+                           th:href="@{/web/museos/editar/{id}(id=${museo._id})}"
+                           class="btn btn-warning text-white">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
                         <form sec:authorize="hasRole('ADMIN')"
                               th:action="@{/web/museos/eliminar/{id}(id=${museo._id})}"
                               method="post"
                               onsubmit="return confirm('¿Eliminar este museo definitivamente?')">
-                            <button type="submit" class="btn btn-outline-danger">
+                            <button type="submit" class="btn btn-outline-danger" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>

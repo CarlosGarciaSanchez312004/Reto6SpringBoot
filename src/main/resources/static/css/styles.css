@@ -1,8 +1,27 @@
 /* =========================================
+   VARIABLES GLOBALES
+   ========================================= */
+:root {
+    --andalucia-green: #00853f;
+}
+
+/* =========================================
    SECCIÓN: ESTILOS GENERALES
    ========================================= */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.full-vh {
+    height: 100vh;
+}
+
+.z-index-2 {
+    z-index: 2;
+}
+
+.inline-form {
+    display: inline;
 }
 
 /* =========================================
@@ -17,6 +36,7 @@ body {
     background-color: #333;
     margin-bottom: 0 !important;
     border-bottom: none !important;
+    padding: 100px 0;
 }
 
 /* El pseudo-elemento que hace la magia de las fotos */
@@ -31,31 +51,21 @@ body {
 }
 
 @keyframes slideHeader {
-    0%, 15% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header1.jpg'); }
+    0%, 15% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1564507592333-c60657eaa0ae?q=80&w=1000'); }
     20%, 35% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header2.jpg'); }
     40%, 55% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header3.jpg'); }
     60%, 75% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header4.jpg'); }
     80%, 95% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header5.jpg'); }
-    100% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/header1.jpg'); }
-}
-
-.hover-card {
-    transition: transform 0.3s ease;
-    border-radius: 12px;
-}
-.hover-card:hover {
-    transform: translateY(-5px);
+    100% { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1564507592333-c60657eaa0ae?q=80&w=1000'); }
 }
 
 .header-title {
     color: #000000;
     font-weight: 900;
     text-transform: uppercase;
-    /* Tamaño de letra fluido: se adapta al ancho de pantalla */
     font-size: calc(1.5rem + 2vw);
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
-    /* Sombra de texto sutil para mejorar legibilidad */
     text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
 }
 
@@ -64,26 +74,15 @@ body {
     color: #333;
 }
 
-/* =========================================
-   SECCIÓN: MAPA Y DETALLES
-   ========================================= */
-#map {
-    height: 350px; /* Un poco más pequeño para que quepa mejor en pantalla */
-    width: 100%;
-    border-radius: 12px;
-    border: 2px solid #ddd;
-    margin-top: 10px;
+.navbar {
+    margin-top: 0 !important;
 }
 
-/* Ajuste para que las tarjetas no se vean pegadas en móviles */
+/* =========================================
+   TARJETAS Y BOTONES
+   ========================================= */
 .card {
     transition: transform 0.2s;
-}
-.card:hover {
-    transform: translateY(-5px);
-}
-:root {
-    --andalucia-green: #00853f;
 }
 
 .hover-card {
@@ -94,7 +93,12 @@ body {
 
 .hover-card:hover {
     transform: translateY(-10px);
-    shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+}
+
+.museum-img {
+    height: 200px;
+    object-fit: cover;
 }
 
 .btn-primary {
@@ -107,13 +111,25 @@ body {
     background-color: #006b33;
 }
 
-/* Mejora del header del ejercicio */
-.header-andalucia {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url('https://images.unsplash.com/photo-1564507592333-c60657eaa0ae?q=80&w=1000') center/cover;
-    color: white;
-    padding: 100px 0;
+.btn-delete-right {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
-.navbar {
-    margin-top: 0 !important;
+
+/* =========================================
+   MAPA Y DETALLES
+   ========================================= */
+#map {
+    height: 350px;
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    margin-top: 10px;
+}
+.full-vh {
+    height: 100vh;
+}
+
+.max-w-500 {
+    max-width: 500px;
 }

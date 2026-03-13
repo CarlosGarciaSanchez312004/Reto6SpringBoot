@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * Clase global para capturar y gestionar las excepciones de la API.
- * Proporciona respuestas estructuradas en formato JSON.
+ * Proporciona respuestas estructuradas en formato JSON para el cliente.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * Gestiona el error cuando no se encuentra un museo específico.
+     * Gestiona las excepciones del tipo MuseoNotFoundException cuando se solicita un museo inexistente.
+     * * @param ex Instancia de la excepción capturada.
+     * @return ResponseEntity con el objeto de error y el código HTTP 404.
      */
     @ExceptionHandler(MuseoNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleMuseoNotFound(MuseoNotFoundException ex) {
@@ -27,7 +29,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Gestiona cualquier otra excepción no controlada.
+     * Gestiona cualquier otra excepción no controlada explícitamente en el sistema.
+     * * @param ex Instancia de la excepción genérica capturada.
+     * @return ResponseEntity con el objeto de error y el código HTTP 500.
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGeneralException(Exception ex) {

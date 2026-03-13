@@ -22,6 +22,10 @@
         <div class="card-body row">
 
             <div class="col-md-6">
+                <img th:src="@{'https://loremflickr.com/400/250/museum,architecture,culture/all?lock=' + ${museo._id.hashCode()}}"
+                     class="card-img-top"
+                     alt="Imagen del museo"
+                     style="height: 200px; object-fit: cover;">
                 <h4 class="text-success">Información</h4>
                 <ul class="list-group list-group-flush mb-4">
                     <li class="list-group-item"><strong>Provincia:</strong> <span th:text="${museo.province}"></span></li>
@@ -32,7 +36,7 @@
                 </ul>
 
                 <a th:if="${museo.web != null and !museo.web.isEmpty()}"
-                   th:href="${museo.web}"
+                   th:href="@{/web/museos/visitar-web/{id}(id=${museo._id})}"
                    target="_blank"
                    class="btn btn-primary btn-lg mb-3">
                     🌍 Visitar Página Web
@@ -68,7 +72,6 @@
             L.marker([lat, lon]).addTo(map)
                 .bindPopup("<b>Ubicación del museo</b>").openPopup();
         } else {
-            // Mensaje de fallback si no hay coordenadas en la base de datos
             document.getElementById('map').innerHTML = "<div class='alert alert-warning m-3'>Coordenadas no disponibles para este museo.</div>";
         }
     });

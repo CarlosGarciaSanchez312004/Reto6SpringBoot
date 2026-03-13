@@ -1,6 +1,5 @@
 package org.example.reto4springboot.controllers;
 
-
 import org.example.reto4springboot.entities.Museo;
 import org.example.reto4springboot.services.MuseoService;
 import org.example.reto4springboot.exceptions.MuseoNotFoundException;
@@ -23,7 +22,7 @@ public class MuseoController {
     private final MuseoService museoService;
 
     /**
-     * Constructor del controlador.
+     * Constructor del controlador para la inyección de dependencias.
      *
      * @param museoService Servicio de lógica de negocio para museos.
      */
@@ -32,7 +31,7 @@ public class MuseoController {
     }
 
     /**
-     * Obtiene la lista de todos los museos registrados.
+     * Obtiene la lista de todos los museos registrados en el sistema.
      *
      * @return Lista de objetos Museo.
      */
@@ -45,7 +44,7 @@ public class MuseoController {
      * Busca un museo por su identificador único.
      *
      * @param id Identificador del museo.
-     * @return ResponseEntity con el museo encontrado o lanza una excepción si no existe.
+     * @return ResponseEntity con el museo encontrado.
      * @throws MuseoNotFoundException si no se encuentra el museo con el ID proporcionado.
      */
     @GetMapping("/{id}")
@@ -58,8 +57,8 @@ public class MuseoController {
     /**
      * Crea un nuevo museo en el sistema.
      *
-     * @param museo Objeto Museo con la información a guardar.
-     * @return ResponseEntity con el museo creado y el estado HTTP CREATED.
+     * @param museo Objeto Museo con la información a guardar proporcionado en el cuerpo de la petición.
+     * @return ResponseEntity con el museo creado y el estado HTTP 201 (CREATED).
      */
     @PostMapping
     public ResponseEntity<Museo> create(@RequestBody Museo museo) {
@@ -71,7 +70,7 @@ public class MuseoController {
      *
      * @param id Identificador del museo a eliminar.
      * @return ResponseEntity con contenido vacío (No Content) si la eliminación es exitosa.
-     * @throws MuseoNotFoundException si no se encuentra el museo con el ID proporcionado.
+     * @throws MuseoNotFoundException si el ID no corresponde a ningún museo registrado.
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
@@ -85,8 +84,8 @@ public class MuseoController {
     /**
      * Busca museos ubicados en una provincia específica.
      *
-     * @param provincia Nombre de la provincia.
-     * @return Lista de museos en la provincia indicada.
+     * @param provincia Nombre de la provincia para filtrar.
+     * @return Lista de museos pertenecientes a la provincia indicada.
      */
     @GetMapping("/provincia/{provincia}")
     public List<Museo> getByProvince(@PathVariable String provincia) {
@@ -94,11 +93,11 @@ public class MuseoController {
     }
 
     /**
-     * Busca un museo por su nombre.
+     * Busca un museo por su nombre exacto.
      *
-     * @param nombre Nombre del museo.
+     * @param nombre Nombre del museo a buscar.
      * @return ResponseEntity con el museo encontrado.
-     * @throws MuseoNotFoundException si no se encuentra un museo con ese nombre.
+     * @throws MuseoNotFoundException si no existe un museo con dicho nombre.
      */
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<Museo> getByName(@PathVariable String nombre) {
@@ -108,9 +107,9 @@ public class MuseoController {
     }
 
     /**
-     * Obtiene una lista de todas las provincias que tienen museos registrados.
+     * Obtiene una lista con los nombres de todas las provincias que tienen museos registrados.
      *
-     * @return Lista de nombres de provincias.
+     * @return Lista de Strings con los nombres de las provincias.
      */
     @GetMapping("/provincias/lista")
     public List<String> getProvincesList() {
@@ -118,9 +117,9 @@ public class MuseoController {
     }
 
     /**
-     * Obtiene estadísticas sobre la cantidad de museos por provincia.
+     * Obtiene estadísticas sobre la cantidad de museos por cada provincia.
      *
-     * @return Mapa donde la clave es la provincia y el valor es el número de museos.
+     * @return Un Mapa donde la clave es el nombre de la provincia y el valor es el recuento de museos.
      */
     @GetMapping("/stats/provincias")
     public Map<String, Long> getStatsByProvince() {
@@ -128,11 +127,11 @@ public class MuseoController {
     }
 
     /**
-     * Actualiza la información de un museo existente.
+     * Actualiza la información de un museo existente basándose en su ID.
      *
-     * @param id Identificador del museo a actualizar.
-     * @param museo Objeto Museo con los nuevos datos.
-     * @return ResponseEntity con el museo actualizado.
+     * @param id Identificador del museo que se desea modificar.
+     * @param museo Objeto Museo que contiene los nuevos datos.
+     * @return ResponseEntity con el objeto Museo actualizado y estado HTTP 200.
      */
     @PutMapping("/{id}")
     public ResponseEntity<Museo> update(@PathVariable String id, @RequestBody Museo museo) {

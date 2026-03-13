@@ -28,7 +28,6 @@
           <form th:action="@{/web/museos/guardar}" th:object="${museo}" method="post">
 
             <input type="hidden" th:field="*{_id}" />
-
             <div class="row g-3">
               <div class="col-md-12">
                 <label for="nombre" class="form-label fw-bold">Nombre del Museo *</label>
@@ -73,11 +72,11 @@
               <h5 class="mt-4 text-success border-bottom pb-2">Geolocalización</h5>
               <div class="col-md-6">
                 <label for="latitude" class="form-label fw-bold">Latitud</label>
-                <input type="number" step="any" class="form-control" id="latitude" th:field="*{latitude}" placeholder="Ej. 37.3828">
+                <input type="text" class="form-control" id="latitude" th:field="*{latitude}" placeholder="Ej. 37.3828">
               </div>
               <div class="col-md-6">
                 <label for="longitude" class="form-label fw-bold">Longitud</label>
-                <input type="number" step="any" class="form-control" id="longitude" th:field="*{longitude}" placeholder="Ej. -5.9731">
+                <input type="text" class="form-control" id="longitude" th:field="*{longitude}" placeholder="Ej. -5.9731">
               </div>
             </div>
 

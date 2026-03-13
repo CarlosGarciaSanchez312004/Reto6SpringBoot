@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Error de Conexión</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-light d-flex align-items-center form-body-vh">
+<div class="container text-center">
+  <div class="card shadow border-0 p-5 rounded-4 mx-auto" style="max-width: 500px;">
+    <h1 class="display-1 text-danger mb-3">⚠️</h1>
+    <h3 class="fw-bold text-dark">¡Ups! La web del museo está caída</h3>
+    <p class="text-muted">Hemos intentado conectar con la página de <strong><span th:text="${museo.nombre}"></span></strong>, pero parece que su servidor no responde en este momento.</p>
+    <div class="mt-4">
+      <a th:href="@{/web/museos/detalle/{id}(id=${museo._id})}" class="btn btn-success px-4 py-2">
+        Volver al detalle del museo
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

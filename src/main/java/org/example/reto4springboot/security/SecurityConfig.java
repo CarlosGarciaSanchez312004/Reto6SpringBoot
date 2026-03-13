@@ -1,6 +1,5 @@
 package org.example.reto4springboot.security;
 
-
 import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
@@ -10,36 +9,31 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.example.reto4springboot.dto.ErrorResponseDTO;
+
 /**
- * Configuración de seguridad de la aplicación utilizando Spring Security.
- * Define las reglas de autorización y autenticación para los endpoints.
+ * Clase de configuración de seguridad para la aplicación.
+ * Define las reglas de acceso, la gestión de sesiones y el comportamiento
+ * de inicio y cierre de sesión.
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     /**
-     * Configura la cadena de filtros de seguridad.
-     *
-     * @param http Objeto HttpSecurity para configurar la seguridad web.
-     * @return La cadena de filtros de seguridad construida.
-     * @throws Exception Si ocurre un error durante la configuración.
+     * Configura la cadena de filtros de seguridad (Security Filter Chain).
+     * Define qué rutas son públicas, cuáles requieren autenticación y
+     * personaliza el formulario de login y el proceso de logout.
+     * * @param http Objeto HttpSecurity para configurar la seguridad web.
+     * @return El filtro de seguridad configurado.
+     * @throws Exception Si ocurre un error en la configuración.
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Nota: en un entorno de producción real, es mejor habilitar CSRF
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Recursos estáticos públicos para todos
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-
-                        // 2. Rutas públicas (ver la lista y el detalle de los museos)
-                        .requestMatchers("/web/museos/lista", "/web/museos/detalle/**").permitAll()
-
-                        // 3. RUTAS RESTRINGIDAS SOLO PARA ADMINISTRADORES
-                        .requestMatchers("/web/museos/nuevo", "/web/museos/guardar", "/web/museos/eliminar/**").hasRole("ADMIN")
-
-                        // 4. Cualquier otra petición (como la API REST) requiere estar autenticado
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                        .requestMatchers("/login", "/registro", "/web/museos/lista", "/web/museos/detalle/**", "/api/museos/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -56,10 +50,11 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
     /**
-     * Define un punto de entrada de autenticación personalizado para devolver respuestas JSON en caso de error 401.
-     *
-     * @return Un AuthenticationEntryPoint personalizado.
+     * Define un punto de entrada personalizado para manejar errores de autenticación.
+     * Devuelve una respuesta JSON con código 401 en lugar de una redirección por defecto.
+     * * @return Instancia de AuthenticationEntryPoint configurada.
      */
     @Bean
     public AuthenticationEntryPoint customAuthenticationEntryPoint() {

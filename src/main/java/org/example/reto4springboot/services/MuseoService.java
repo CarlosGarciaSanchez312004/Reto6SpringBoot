@@ -2,6 +2,7 @@ package org.example.reto4springboot.services;
 
 import org.example.reto4springboot.entities.Museo;
 import org.example.reto4springboot.repositories.MuseoRepository;
+import org.example.reto4springboot.exceptions.MuseoNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +10,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Servicio que contiene la lógica de negocio para la gestión de museos.
- * Actúa como intermediario entre el controlador y el repositorio.
+ * Servicio encargado de la lógica de negocio relacionada con la entidad Museo.
+ * Coordina las operaciones entre los controladores y el repositorio de datos.
  */
 @Service
 public class MuseoService {
@@ -18,8 +19,7 @@ public class MuseoService {
     private final MuseoRepository museoRepository;
 
     /**
-     * Constructor del servicio.
-     *
+     * Constructor del servicio para inyección de dependencias.
      * @param museoRepository Repositorio de museos.
      */
     public MuseoService(MuseoRepository museoRepository) {
@@ -27,9 +27,8 @@ public class MuseoService {
     }
 
     /**
-     * Recupera todos los museos almacenados.
-     *
-     * @return Lista de todos los museos.
+     * Obtiene todos los museos de la base de datos.
+     * @return Lista de museos.
      */
     public List<Museo> findAll() {
         return museoRepository.findAll();
@@ -37,18 +36,16 @@ public class MuseoService {
 
     /**
      * Busca un museo por su ID.
-     *
-     * @param id Identificador del museo.
-     * @return Un Optional que contiene el museo si se encuentra, o vacío si no.
+     * @param id Identificador único del museo.
+     * @return Optional con el museo encontrado.
      */
     public Optional<Museo> findById(String id) {
         return museoRepository.findById(id);
     }
 
     /**
-     * Guarda un nuevo museo o actualiza uno existente.
-     *
-     * @param museo Objeto Museo a guardar.
+     * Guarda un museo en la base de datos.
+     * @param museo Objeto museo a persistir.
      * @return El museo guardado.
      */
     public Museo save(Museo museo) {
@@ -56,27 +53,15 @@ public class MuseoService {
     }
 
     /**
-     * Elimina un museo por su ID.
-     *
-     * @param id Identificador del museo a eliminar.
+     * Elimina un museo por su identificador.
+     * @param id ID del museo a eliminar.
      */
     public void deleteById(String id) {
         museoRepository.deleteById(id);
     }
 
     /**
-     * Busca un museo por su nombre.
-     *
-     * @param nombre Nombre del museo.
-     * @return Un Optional con el museo si existe.
-     */
-    public Optional<Museo> findMuseoByName(String nombre) {
-        return museoRepository.findByNombre(nombre);
-    }
-
-    /**
-     * Busca museos por provincia.
-     *
+     * Filtra los museos por provincia.
      * @param province Nombre de la provincia.
      * @return Lista de museos en esa provincia.
      */
@@ -85,10 +70,17 @@ public class MuseoService {
     }
 
     /**
-     * Obtiene una lista de todas las provincias distintas que tienen museos.
-     * Filtra valores nulos o vacíos.
-     *
-     * @return Lista ordenada de nombres de provincias.
+     * Busca un museo por su nombre exacto.
+     * @param name Nombre del museo.
+     * @return Optional con el museo encontrado.
+     */
+    public Optional<Museo> findMuseoByName(String name) {
+        return museoRepository.findByNombre(name);
+    }
+
+    /**
+     * Obtiene una lista única de todas las provincias registradas.
+     * @return Lista de nombres de provincias.
      */
     public List<String> findAllProvinces() {
         return museoRepository.findAll().stream()
@@ -100,23 +92,21 @@ public class MuseoService {
     }
 
     /**
-     * Cuenta el número de museos por provincia.
-     *
-     * @return Mapa con el nombre de la provincia y la cantidad de museos.
+     * Genera estadísticas de conteo de museos por provincia.
+     * @return Mapa con provincia y cantidad de museos.
      */
     public Map<String, Long> countMuseosByProvince() {
         return museoRepository.findAll().stream()
-                .filter(p -> p.getProvince() != null)
+                .filter(m -> m.getProvince() != null)
                 .collect(Collectors.groupingBy(Museo::getProvince, Collectors.counting()));
     }
 
     /**
      * Actualiza los datos de un museo existente.
-     *
-     * @param id Identificador del museo a actualizar.
-     * @param museoDetails Objeto con los nuevos datos del museo.
+     * @param id ID del museo a modificar.
+     * @param museoDetails Nuevos datos.
      * @return El museo actualizado.
-     * @throws org.example.reto4springboot.exceptions.MuseoNotFoundException Si el museo no existe.
+     * @throws MuseoNotFoundException Si el ID no existe.
      */
     public Museo update(String id, Museo museoDetails) {
         return museoRepository.findById(id).map(museoExistente -> {
@@ -128,12 +118,17 @@ public class MuseoService {
             museoExistente.setEmail(museoDetails.getEmail());
             museoExistente.setWeb(museoDetails.getWeb());
             museoExistente.setOpening_hours(museoDetails.getOpening_hours());
-
+            museoExistente.setLatitude(museoDetails.getLatitude());
+            museoExistente.setLongitude(museoDetails.getLongitude());
             return museoRepository.save(museoExistente);
-        }).orElseThrow(() -> new org.example.reto4springboot.exceptions.MuseoNotFoundException("No se puede actualizar. Museo no encontrado con ID: " + id));
-
+        }).orElseThrow(() -> new MuseoNotFoundException("No se encontró el ID: " + id));
     }
-    // Añade esto a tu MuseoService.java
+
+    /**
+     * Busca museos que contengan una cadena en su nombre.
+     * @param nombre Texto a buscar.
+     * @return Lista de coincidencias.
+     */
     public List<Museo> findByNombreContaining(String nombre) {
         return museoRepository.findByNombreContainingIgnoreCase(nombre);
     }

@@ -8,31 +8,39 @@ import java.util.Optional;
 
 /**
  * Repositorio para la entidad Museo.
- * Extiende MongoRepository para proporcionar operaciones CRUD básicas y consultas personalizadas.
+ * Proporciona acceso a los datos en MongoDB incluyendo operaciones CRUD y filtros avanzados.
  */
 @Repository
 public interface MuseoRepository extends MongoRepository<Museo, String> {
 
     /**
-     * Busca un museo por su nombre exacto.
+     * Busca un museo cuyo nombre coincida exactamente con el proporcionado.
      *
-     * @param nombre Nombre del museo.
-     * @return Un Optional con el museo si se encuentra.
+     * @param nombre Nombre del museo a localizar.
+     * @return Un Optional que contiene el museo si se encuentra.
      */
     Optional<Museo> findByNombre(String nombre);
+
     /**
-     * Busca museos por municipio.
+     * Recupera una lista de museos filtrada por el municipio.
      *
      * @param municipality Nombre del municipio.
-     * @return Lista de museos en el municipio.
+     * @return Lista de museos que se encuentran en dicho municipio.
      */
     List<Museo> findByMunicipality(String municipality);
 
     /**
-     * Busca museos por provincia.
+     * Recupera una lista de museos filtrada por la provincia.
      *
      * @param province Nombre de la provincia.
-     * @return Lista de museos en la provincia.
+     * @return Lista de museos que pertenecen a la provincia especificada.
      */
     List<Museo> findByProvince(String province);
-    List<Museo> findByNombreContainingIgnoreCase(String nombre);}
+
+    /**
+     * Busca museos cuyo nombre contenga una cadena de texto, ignorando mayúsculas y minúsculas.
+     * * @param nombre Cadena de texto a buscar dentro del nombre.
+     * @return Lista de museos que coinciden parcialmente con el nombre dado.
+     */
+    List<Museo> findByNombreContainingIgnoreCase(String nombre);
+}

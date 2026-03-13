@@ -14,17 +14,17 @@ import lombok.NoArgsConstructor;
 public class ErrorResponseDTO {
 
     /**
-     * Mensaje detallado del error.
+     * Mensaje detallado que explica la causa del error.
      */
     private String message;
 
     /**
-     * Descripción breve del error o categoría.
+     * Descripción breve del error o categoría del mismo.
      */
     private String error;
 
     /**
-     * Código de estado HTTP asociado al error.
+     * Código numérico del estado HTTP asociado al error.
      */
     private int status;
 }

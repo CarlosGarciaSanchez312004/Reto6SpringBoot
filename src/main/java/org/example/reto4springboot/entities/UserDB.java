@@ -13,30 +13,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserDB {
 
     /**
-     * Identificador único del usuario.
+     * Identificador único del usuario autogenerado por la base de datos.
      */
     @Id
     private String _id;
 
     /**
-     * Correo electrónico del usuario, utilizado como nombre de usuario.
+     * Correo electrónico del usuario, utilizado como nombre de usuario único.
      */
     private String email;
 
     /**
-     * Contraseña del usuario.
+     * Contraseña del usuario almacenada de forma segura.
      */
     private String password;
 
     /**
-     * Indica si el usuario tiene privilegios de administrador.
+     * Atributo que determina si el usuario posee privilegios de administrador.
      */
     private boolean admin;
 
     /**
      * Obtiene la contraseña del usuario.
      *
-     * @return La contraseña.
+     * @return La contraseña en formato String.
      */
     public String getPassword() {
         return this.password;
@@ -45,7 +45,7 @@ public class UserDB {
     /**
      * Obtiene el correo electrónico del usuario.
      *
-     * @return El correo electrónico.
+     * @return El correo electrónico del usuario.
      */
     public String getEmail() {
         return this.email;
